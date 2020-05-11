@@ -1,0 +1,35 @@
+{
+  "files": {
+    "main.css": "/Pig_Interactive/static/css/main.86461781.chunk.css",
+    "main.js": "/Pig_Interactive/static/js/main.964cf975.chunk.js",
+    "main.js.map": "/Pig_Interactive/static/js/main.964cf975.chunk.js.map",
+    "runtime-main.js": "/Pig_Interactive/static/js/runtime-main.f5e051d7.js",
+    "runtime-main.js.map": "/Pig_Interactive/static/js/runtime-main.f5e051d7.js.map",
+    "static/js/2.73895582.chunk.js": "/Pig_Interactive/static/js/2.73895582.chunk.js",
+    "static/js/2.73895582.chunk.js.map": "/Pig_Interactive/static/js/2.73895582.chunk.js.map",
+    "index.html": "/Pig_Interactive/index.html",
+    "precache-manifest.cfa5d2a3b7554c34e3a36d5db3a224a2.js": "/Pig_Interactive/precache-manifest.cfa5d2a3b7554c34e3a36d5db3a224a2.js",
+    "service-worker.js": "/Pig_Interactive/service-worker.js",
+    "static/css/main.86461781.chunk.css.map": "/Pig_Interactive/static/css/main.86461781.chunk.css.map",
+    "static/js/2.73895582.chunk.js.LICENSE.txt": "/Pig_Interactive/static/js/2.73895582.chunk.js.LICENSE.txt",
+    "static/media/check.png": "/Pig_Interactive/static/media/check.7c87ab24.png",
+    "static/media/chimpanz.png": "/Pig_Interactive/static/media/chimpanz.dddae67b.png",
+    "static/media/chimpcheck.png": "/Pig_Interactive/static/media/chimpcheck.29dd30f4.png",
+    "static/media/chimpx.png": "/Pig_Interactive/static/media/chimpx.e1734616.png",
+    "static/media/dogcheck.png": "/Pig_Interactive/static/media/dogcheck.4d021e0b.png",
+    "static/media/doggy.png": "/Pig_Interactive/static/media/doggy.990205b2.png",
+    "static/media/dogx.png": "/Pig_Interactive/static/media/dogx.91aa6f78.png",
+    "static/media/logo.svg": "/Pig_Interactive/static/media/logo.5d5d9eef.svg",
+    "static/media/pig.png": "/Pig_Interactive/static/media/pig.1b624e3f.png",
+    "static/media/pigbackground.jpeg": "/Pig_Interactive/static/media/pigbackground.5ecacfa1.jpeg",
+    "static/media/pigcheck.png": "/Pig_Interactive/static/media/pigcheck.521daf1d.png",
+    "static/media/pigx.png": "/Pig_Interactive/static/media/pigx.62adb418.png",
+    "static/media/x-mark.png": "/Pig_Interactive/static/media/x-mark.d7d63539.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.f5e051d7.js",
+    "static/js/2.73895582.chunk.js",
+    "static/css/main.86461781.chunk.css",
+    "static/js/main.964cf975.chunk.js"
+  ]
+}
