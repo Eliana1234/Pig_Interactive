@@ -17,22 +17,27 @@ import chimpx from './chimpx.png'
 import chimpcheck from './chimpcheck.png'
 import dogcheck from './dogcheck.png'
 import dogx from './dogx.png'
+import pigbackground from './pigbackground.jpeg'
 import Popup from './Popup'
-import { TimelineLite, CSSPlugin, TextPlugin, RoughEase, Linear } from "gsap/all";
+import { TimelineLite, CSSPlugin, TextPlugin, RoughEase, Linear, Back, shuffle } from "gsap/all";
 gsap.registerPlugin(CSSPlugin)
 gsap.registerPlugin(TextPlugin);
 
 
-// icons will be animated using a stagger method
+
 const iconsArray = [
-	{ src: pig, width: "250", height: "250"},
-  { src: chimp, width: "250", height: "250" },
-	{ src: dog, width: "250", height: "250" },
+	{ src: pig, width: "250", height: "250", link: "https://aeon.co/essays/what-more-evidence-do-we-need-to-stop-killing-pigs-for-food", info: "Read, `What more evidence do we need to stop killing pigs for food?` in Aeon" },
+  { src: chimp, width: "250", height: "250", link: "https://www.nonhumanrights.org/?gclid=EAIaIQobChMIxPWu5Ius6QIVhQiICR34dAi0EAAYASAAEgK4JPD_BwE", info: "Learn about the Nonhuman Rights Project" },
+	{ src: dog, width: "250", height: "250", link:"https://www.seeker.com/iq-tests-suggest-pigs-are-smart-as-dogs-chimps-1769934406.html", info: "Research from the Nonhuman Rights Project that this website is based off of"},
 ];
 const questionsArr = [
-{id: 1, text: "are whizzes with mazes and other tests requiring location of objects", pig: true, chimp: false, dog: true},
-{id: 2, text: "can comprehend a simple symbolic language", pig: true, chimp: true, dog: false},
-{id: 3, text: "love to play and engage in mock fighting with each other", pig: true, chimp: false, dog: false}
+{id: 1, text: "can comprehend a simple symbolic language", pig: true, chimp: true, dog: false},
+{id: 2, text: "have excellent long-term memories", pig: true, chimp: true, dog: true},
+{id: 3, text: "are whizzes with mazes and other tests requiring location of objects", pig: true, chimp: true, dog: true},
+{id: 4, text: "live in complex social communities where they keep track of individuals and learn from one another ", pig: true, chimp: true, dog: true},
+{id: 5, text: "excellent at manipulating a joystick to move an on-screen cursor", pig: true, chimp: true, dog: false},
+{id: 6, text: "can use a mirror to find hidden food", pig: true, chimp: true, dog: false},
+{id: 7, text: "exhibit a form of empathy when witnessing the same emotion in another individual", pig: true, chimp: true, dog: true},
 ]
 
 let numberCorrect = 0;
@@ -53,14 +58,21 @@ class App extends React.Component {
     this.description = null;
     this.questionText = null;
     this.check = null;
+    this.starterButton = null;
+    this.enterPig = null;
+    this.pigBackground = null;
     this.show = null;
     this.popup1 = null;
     this.cards = [this.head, this.word, this.subhead]
     this.icons = [];
     this.buttons = [];
+    this.furtherInfo =[];
+    this.box = [];
+    this.link = [];
     this.newIcons = [];
     this.newButtons = [];
     this.nav = null;
+    
     
     this.state = {
       currentQuestion: "But maybe you're smarter?",
@@ -75,7 +87,11 @@ class App extends React.Component {
 
 	// add instances to the timeline
 	componentDidMount(){
-		this.logoTl
+    this.logoTl
+      .set(this.cards[2], {opacity: 0})
+      .set(this.enterPig, {hidden: true})
+      .set(this.pigBackground, {hidden: true})
+      .set(this.starterButton, {hidden: true})
       .set(this.content, { autoAlpha: 1 })// show content div
       .from(this.cards[0], 0.5, { left: 100, autoAlpha: 0 })
 
@@ -95,7 +111,7 @@ class App extends React.Component {
       }
     , ease: "none"})
 
-    this.logoTl.from(this.cards[2], 0.5, {left: -100, autoAlpha: 0 }, "-=0.25") // added -0.25 seconds prior to end this.of timeline
+   this.logoTl.from(this.cards[2], 0.5, { left: 100, autoAlpha: 0 }) // added -0.25 seconds prior to end this.of timeline
     
    this.logoTl.staggerTo( this.cards, 2, {opacity: 0 }, 0.1, "-=0.25")
 
@@ -103,6 +119,7 @@ class App extends React.Component {
 
       // .from(this.feature, 0.5, { scale: .5, autoAlpha: 0 }, "feature") // added 0.5 seconds after end of timeline
     // this.logoTl.from(this.description, 0.5, { left: 100, autoAlpha: 0 }, "-=0.25")
+    .set(this.link, {hidden: "true"})
     .staggerFrom(this.icons, 0.2, { scale: 0, autoAlpha: 0 }, 0.1) //animate all icons with 0.1 second stagger
     .staggerFrom(this.buttons, 0.2, { scale: 0, autoAlpha: 0 }, 0.1); 
   
@@ -110,14 +127,22 @@ class App extends React.Component {
     this.logoTl.from(this.next, 0.5, { left: 100, autoAlpha: 0 }, "-=0.25")
     this.logoTl.from(this.show, 0.5, { left: 100, autoAlpha: 0 }, "-=0.25")
 
-    this.logoTl.set(this.cards[2], {opacity: 1, text: "have excellent long-term memories"}, "+=0.5")
+    this.logoTl.set(this.cards[2], {opacity: 1, text: "can comprehend a simple symbolic language"}, "-=0.25")
 
     this.animalTl.set(this.content, { autoAlpha: 1 })// show content div
     .to(this.cards[2], {duration: 1,   text: {
       value: "Further reading"
-    }, ease: "none"}, "+=3")
-    .set(this.icons, {hidden: false, display: "flex", flexDirection: "column"})
-    .set(this.buttons, {hidden: false})
+    }, ease: "none"}, "+=2")
+   
+    this.animalTl.staggerTo(this.icons, 0.2, { hidden: false }, 0.25)
+    .staggerTo(this.buttons, 0.2, { margin: "10px", hidden: false, backgroundColor: "#939799"}, 0.25)
+    .staggerTo(this.furtherInfo, 0.2, { color: "#000000" }, 0.25)
+    .set(this.icons, {opacity: 0.5})
+    .staggerTo(this.link, 0.2, {hidden: false}, 0.25)
+    // .staggerTo(this.box, 0.2, { backgroundColor: "#939799", opacity: 0.5 }, 0.25)
+   
+
+
     // .staggerFrom(this.buttons, 0.2, { opacity: 1, scale: 0, autoAlpha: 0 }, 0.1)
 
   }
@@ -128,7 +153,7 @@ class App extends React.Component {
     gsap.set(this.icons[0], {attr:{src: pig}})
     gsap.set(this.icons[1], {attr:{src: chimp}})
     gsap.set(this.icons[2], {attr:{src: dog}})
-    if (this.state.currentIndx < 2){
+    if (this.state.currentIndx < 6){
     const nextIndx = this.state.currentIndx + 1 
     this.setState({
       currentQuestion: questionsArr[nextIndx].text,
@@ -137,13 +162,19 @@ class App extends React.Component {
     }
     else {
       this.setState({
-        currentQuestion: `Correct: ${numberCorrect}/9, Answer: Pigs rock`,
+        currentQuestion: `Correct: ${numberCorrect}/18, Answer: Pigs rock`,
       }) 
       gsap.set(this.buttons, {hidden: true})
       gsap.set(this.icons, {hidden: true})
       gsap.set(this.show, {hidden: true})
       gsap.set(this.next, {hidden: true})
       gsap.set(this.cards[0], {hidden: true})
+      let last = iconsArray.pop()
+      iconsArray.unshift(last)
+      iconsArray.forEach(element => {
+        element.width = "350px"
+        element.height = "350px"
+      })
       this.animalTl.play()
     }
   }
@@ -268,15 +299,21 @@ class App extends React.Component {
 							</div>
 							<div className="nav">
 								{ iconsArray.map( (icon, index) => {
-									const { src, width, height } = icon;
+									const { src, width, height, info, link } = icon;
                   return (
-                    <button ke={index} style={{backgroundColor: "transparent"}} ref={button => this.buttons[index] = button} onClick={() => this.selectAnimal(index)} >
+                    <button key={index} style={{backgroundColor: "transparent"}} ref={button => this.buttons[index] = button} onClick={() => this.selectAnimal(index)} >
                     <img
+                    // style={{position: "relative"}}
                     alt="random_image"
 										key={`icon-${index}`}
 										src={src} width={width} height={height}
 										ref={ img => this.icons[index] = img }
                   />
+                  <div ref={div => this.box[index] = div} style={{backgroundColor: "transparent"}}>
+                   <p style={{color: "transparent", zIndex: "100", position: "absolute", left: "0", top: "20%", fontWeight: "bold", maxWidth: "350px", wordBreak: "break-word", fontSize: "33px", justifyContent: "center", alignText: "center", fontFamily: "Hoefler Text"}}ref={p => this.furtherInfo[index] = p}>
+                     <a ref={a => this.link[index] = a} style={{onHover: "#ffffff"}} href={link}>{info}</a>
+                     </p>
+                   </div>
                   </button>
                   )
 								})}
@@ -287,10 +324,18 @@ class App extends React.Component {
 					{/* BUTTONS */}
 					<div className="my-3 btn-group">
 						<button
+              ref={button => this.starterButton = button}
 							className="btn gsap-btn"
 							onClick={() => this.logoTl.play()}
-						>Play</button>
-						<button
+						>  <img
+            style={{backgroundSize: "cover", height: "100%", width: "100%", position: "absolute", top: "0", left: "0"}}
+            alt="pig_background"
+            src={pigbackground}
+            ref={ img => this.pigBackground = img }
+                />
+          <p style={{color: "black", zIndex: "100", position: "absolute", left: "33%", top: "25%", fontWeight: "bold", fontSize: "60px", justifyContent: "center", alignText: "center", fontFamily: "Hoefler Text"}}ref={p => this.enterPig = p}>Enter Pig Interactive</p>
+          </button>
+						{/* <button
 							className="btn gsap-btn"
 							onClick={() => this.logoTl.pause()}
 						>Pause</button>
@@ -301,7 +346,7 @@ class App extends React.Component {
 						<button
 							className="btn gsap-btn"
 							onClick={() => this.logoTl.restart()}
-						>Restart</button>
+						>Restart</button> */}
 					</div>
 				</div>
 			</div>
@@ -376,8 +421,15 @@ class App extends React.Component {
 						<button
 							className="btn gsap-btn"
 							onClick={() => this.logoTl.play()}
-						>Play</button>
-						<button
+						>
+           <img
+              alt="pig_background"
+							src={pigbackground} width="800px" height="600px"
+							ref={ img => this.pigBackground = img }
+                  />
+            <p style={{color: "black", zIndex: "100", position: "absolute", left: "0", top: "20%", fontWeight: "bold", fontSize: "60px", justifyContent: "center", alignText: "center", fontFamily: "Hoefler Text"}}ref={p => this.enterPig = p}>Enter Pig Interactive</p>
+            </button>
+						{/* <button
 							className="btn gsap-btn"
 							onClick={() => this.logoTl.pause()}
 						>Pause</button>
@@ -388,7 +440,7 @@ class App extends React.Component {
 						<button
 							className="btn gsap-btn"
 							onClick={() => this.logoTl.restart()}
-						>Restart</button>
+						>Restart</button> */}
 					</div>
 				</div>
 			</div>
